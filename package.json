@@ -9,6 +9,11 @@
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.0.0",
-    "hardhat": "^2.6.7"
+    "hardhat": "^2.6.7",
+    "solhint": "^3.3.6"
+  },
+  "scripts": {
+    "build": "hardhat compile",
+    "lint:sol": "solhint contracts/*.sol"
   }
 }
