@@ -4,6 +4,7 @@ pragma solidity ^0.8.4;
 
 import "./openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import "./Ownable.sol";
 
 /**
  * @dev Implementation of the {IERC20} and {ERC20Burnable} interfaces.
@@ -20,7 +21,7 @@ import "./openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
  * functions have been added to mitigate the well-known issues around setting
  * allowances. See {IERC20-approve}.
  */
-contract RegenBasket is IERC20, IERC20Metadata {
+contract RegenBasket is IERC20, IERC20Metadata, Ownable {
     mapping(address => uint256) private _balances;
 
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -29,8 +30,6 @@ contract RegenBasket is IERC20, IERC20Metadata {
     string public symbol;
     uint8 public decimals;
     uint256 public totalSupply;
-
-    address public owner;
 
     /**
      * @dev Sets the values for {name} and {symbol}.
@@ -41,7 +40,7 @@ contract RegenBasket is IERC20, IERC20Metadata {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor(string memory name_, string memory symbol_, uint8 decimals_) public {
+    constructor(address owner, string memory name_, string memory symbol_, uint8 decimals_) public Ownable(owner) {
         name = name_;
         symbol = symbol_;
         if (decimals_ == 0) decimals_ = 18;
@@ -202,7 +201,7 @@ contract RegenBasket is IERC20, IERC20Metadata {
      * Requirements:
      * - `account` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) internal virtual {
+    function mint(address account, uint256 amount) public virtual onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
@@ -306,13 +305,4 @@ contract RegenBasket is IERC20, IERC20Metadata {
         address to,
         uint256 amount
     ) internal virtual {}
-
-    /***********************
-      MODIFIERS
-    ************************/
-
-    modifier onlyOwner {
-        require(msg.sender == owner, "not an owner");
-        _;
-    }
 }
