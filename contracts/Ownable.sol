@@ -6,6 +6,8 @@ contract Ownable {
 
     address public owner;
 
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
     constructor(address owner_) {
         owner = owner_;
     }
@@ -15,14 +17,14 @@ contract Ownable {
         _;
     }
 
-    function updatOwner(address newOwner) public onlyOwner {
-        owner = newOwner;
-        emit OwnerUpdate(newOwner);
-    }
-
     /**
-     * @dev Emitted when `owner` is updated.
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Can only be called by the current owner.
      */
-    event OwnerUpdate(address owner);
+    function transferOwnership(address newOwner) public virtual onlyOwner {
+        address oldOwner =_owner;
+        owner = newOwner;
+        emit OwnershipTransferred(oldOwner, newOwner);
+    }
 
 }
