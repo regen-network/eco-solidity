@@ -44,7 +44,7 @@ describe("Token contract", function () {
   describe("Transactions", function () {
 
     beforeEach(async function() {
-      await rb1.mint(owner.address, "1000")
+      await rb1.mint(owner.address, "1000", "0x1231")
     });
 
     it("Should transfer tokens between accounts", async function () {

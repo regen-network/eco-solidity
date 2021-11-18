@@ -22,7 +22,7 @@ contract Ownable {
      * Can only be called by the current owner.
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
-        address oldOwner =_owner;
+        address oldOwner = newOwner;
         owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
     }

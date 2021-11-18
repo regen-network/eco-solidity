@@ -40,7 +40,7 @@ contract RegenBasket is IERC20, IERC20Metadata, Ownable {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor(address owner, string memory name_, string memory symbol_, uint8 decimals_) public Ownable(owner) {
+    constructor(address owner, string memory name_, string memory symbol_, uint8 decimals_) Ownable(owner) {
         name = name_;
         symbol = symbol_;
         if (decimals_ == 0) decimals_ = 18;
@@ -195,13 +195,14 @@ contract RegenBasket is IERC20, IERC20Metadata, Ownable {
 
     /** @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
+     * `originTx` is the Regen Ledger transaction ID initiating the transfer.
      *
      * Emits a {Transfer} event with `from` set to the zero address.
      *
      * Requirements:
      * - `account` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) public virtual onlyOwner {
+    function mint(address account, uint256 amount, string calldata originTx) public virtual onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
