@@ -201,6 +201,8 @@ contract RegenBasket is IERC20, IERC20Metadata, Ownable {
      *
      * Requirements:
      * - `account` cannot be the zero address.
+     *
+     * TODO: decide if we want address in here or we want to remove it
      */
     function mint(address account, uint256 amount, string calldata originTx) public virtual onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
